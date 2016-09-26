@@ -76,6 +76,7 @@ class ApiHelper extends AbstractHelper
 
         $otherParameters['language'] = $language;
         $otherParameters['sensor'] = json_encode((bool) $sensor);
+        $otherParameters['key'] = $this->apiKey;
 
         $this->jsonBuilder
             ->reset()
