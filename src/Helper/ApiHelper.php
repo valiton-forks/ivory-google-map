@@ -21,14 +21,18 @@ class ApiHelper extends AbstractHelper
     /** @var boolean */
     protected $loaded;
 
+    /** @var string */
+    protected $apiKey;
+
     /**
      * Creates a Google Map API helper.
      */
-    public function __construct()
+    public function __construct($apiKey)
     {
         parent::__construct();
 
         $this->loaded = false;
+        $this->apiKey = $apiKey;
     }
 
     /**
@@ -82,7 +86,7 @@ class ApiHelper extends AbstractHelper
         }
 
         $callbackFunction = 'load_ivory_google_map_api';
-        $url = sprintf('//www.google.com/jsapi?callback=%s', $callbackFunction);
+        $url = sprintf('//www.google.com/jsapi?key=%s&callback=%s', $this->apiKey, $callbackFunction);
         $loader = sprintf('google.load("maps", "3", %s);', $this->jsonBuilder->build());
 
         $output = array();
