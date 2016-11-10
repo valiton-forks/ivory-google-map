@@ -226,6 +226,23 @@ class GeocoderProviderTest extends \PHPUnit_Framework_TestCase
         $this->geocoderProvider->getGeocodedData('Paris');
     }
 
+    public function testUrlWithApiKey()
+    {
+        $httpAdapterMock = $this->getMock('Geocoder\HttpAdapter\HttpAdapterInterface');
+        $httpAdapterMock
+            ->expects($this->once())
+            ->method('getContent')
+            ->with($this->callback(function($url){
+                return 1 === preg_match('/key=testApiKey/', $url);
+            }))
+            ->will($this->returnValue('{"status": "OK", "results": []}'));
+
+        $this->geocoderProvider = new GeocoderProvider($httpAdapterMock);
+        $this->geocoderProvider->setApiKey('testApiKey');
+        $this->geocoderProvider->setFormat('json');
+        $this->geocoderProvider->getGeocodedData('Paris');
+    }
+
     public function testReversedData()
     {
         $response = $this->geocoderProvider->getReversedData(array(48.856633, 2.352254));

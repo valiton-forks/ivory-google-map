@@ -68,6 +68,21 @@ EOF;
         $this->assertSame($expected, $this->apiHelper->render());
     }
 
+    public function testRenderWithApiKey()
+    {
+        $expected = <<<EOF
+<script type="text/javascript">
+function load_ivory_google_map_api () { google.load("maps", "3", {"other_params":"language=en&sensor=false&key=testApiKey"}); };
+</script>
+<script type="text/javascript" src="//www.google.com/jsapi?callback=load_ivory_google_map_api&key=testApiKey"></script>
+
+EOF;
+
+        $this->apiHelper->setApiKey('testApiKey');
+
+        $this->assertSame($expected, $this->apiHelper->render());
+    }
+
     public function testRenderWithLanguage()
     {
         $expected = <<<EOF
